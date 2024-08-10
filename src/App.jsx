@@ -14,7 +14,7 @@ const initialValues = [
 
 function App() {
   const [contactList, setContactList] = useState(() =>
-    JSON.parse(window.localStorage.getItem("contactList") ?? initialValues)
+    JSON.parse(window.localStorage.getItem("contactList"))
   );
 
   const [searchStr, setSearchStr] = useState("");
