@@ -5,11 +5,11 @@ const Contact = ({ item, handleDeleteContact }) => {
     <li className={s.contactItem}>
       <div>
         <p className={s.contactName}>
-          <User className={s.contactIcon} size={20} />
+          <User className={s.contactIcon} size={14} />
           {item.name}
         </p>
         <p className={s.contactName}>
-          <Phone className={s.contactIcon} size={20} />
+          <Phone className={s.contactIcon} size={14} />
           {item.number}
         </p>
       </div>
@@ -17,7 +17,7 @@ const Contact = ({ item, handleDeleteContact }) => {
         className={s.deleteButton}
         onClick={() => handleDeleteContact(item.id)}
       >
-        <Trash2 className={s.deleteIcon} size={15} /> Delete
+        <Trash2 className={s.deleteIcon} size={14} /> Delete
       </button>
     </li>
   );

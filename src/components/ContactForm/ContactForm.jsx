@@ -66,6 +66,7 @@ const ContactForm = ({ handleAddContact }) => {
                 name="number"
                 className={s.input}
                 value={values.number}
+                placeholder=" xxx-xx-xx "
                 onChange={(e) => {
                   const formattedNumber = formatPhoneNumber(e.target.value);
                   setFieldValue("number", formattedNumber);
