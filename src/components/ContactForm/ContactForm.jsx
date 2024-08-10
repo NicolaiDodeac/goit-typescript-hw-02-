@@ -16,6 +16,8 @@ const ContactForm = ({ handleAddContact }) => {
       .required("Is required!"),
   });
 
+  //! Додаткова фунція до валідації. добавляє слеші і в умові дз не було валідації на 7 цифр.це моє рішення..
+
   // Function to format the phone number with hyphens
   const formatPhoneNumber = (value) => {
     // Remove all non-numeric characters
