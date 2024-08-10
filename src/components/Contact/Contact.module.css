@@ -8,6 +8,7 @@
   margin-bottom: 10px;
   background-color: #fff;
   min-width: 300px;
+  box-shadow: 0 0 6px 6px rgb(208, 210, 211);
 }
 
 .contactIcon {

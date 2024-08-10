@@ -1,6 +1,6 @@
 import { User, Phone, Trash2 } from "lucide-react";
 import s from "./Contact.module.css";
-const Contact = ({ item }) => {
+const Contact = ({ item, handleDeleteContact }) => {
   return (
     <li className={s.contactItem}>
       <div>
@@ -13,7 +13,10 @@ const Contact = ({ item }) => {
           {item.number}
         </p>
       </div>
-      <button className={s.deleteButton} onClick={() => onDelete(item.id)}>
+      <button
+        className={s.deleteButton}
+        onClick={() => handleDeleteContact(item.id)}
+      >
         <Trash2 className={s.deleteIcon} /> Delete
       </button>
     </li>

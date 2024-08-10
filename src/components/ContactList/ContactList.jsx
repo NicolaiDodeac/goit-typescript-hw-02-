@@ -1,11 +1,15 @@
 import s from "./ContactList.module.css";
 import Contact from "../Contact/Contact";
 
-const ContactList = ({ contactList }) => {
+const ContactList = ({ contacts, handleDeleteContact }) => {
   return (
     <ul className={s.contactList}>
-      {contactList.map((item) => (
-        <Contact key={item.id} item={item} />
+      {contacts.map((item) => (
+        <Contact
+          key={item.id}
+          item={item}
+          handleDeleteContact={handleDeleteContact}
+        />
       ))}
     </ul>
   );
