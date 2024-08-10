@@ -13,10 +13,15 @@ const initialValues = [
 ];
 
 function App() {
-  const [contactList, setContactList] = useState(
-    () =>
-      JSON.parse(window.localStorage.getItem("contactList")) ?? initialValues
-  );
+  const [contactList, setContactList] = useState(() => {
+    try {
+      const storedContacts = window.localStorage.getItem("contactList");
+      return storedContacts ? JSON.parse(storedContacts) : initialValues;
+    } catch (e) {
+      console.error("Error parsing localStorage data:", e);
+      return initialValues;
+    }
+  });
 
   const [searchStr, setSearchStr] = useState("");
 
