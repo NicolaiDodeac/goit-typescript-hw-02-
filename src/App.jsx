@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import SearchBar from "./components/SearchBar/SearchBar";
 import { fetchImages } from "../services/unsplashAPI";
 import ImageGallery from "./components/ImageGallery/ImageGallery";
@@ -18,7 +18,6 @@ const App = () => {
   const [isEmpty, setIsEmpty] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalImage, setModalImage] = useState({});
-  const imageRef = useRef(null);
 
   useEffect(() => {
     if (!query) return;
