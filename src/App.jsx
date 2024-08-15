@@ -18,7 +18,7 @@ const App = () => {
   const [isEmpty, setIsEmpty] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalImage, setModalImage] = useState({});
-  const galleryRef = useRef(null);
+  const imageRef = useRef(null);
 
   useEffect(() => {
     if (!query) return;
@@ -43,16 +43,14 @@ const App = () => {
   }, [query, page]);
 
   useEffect(() => {
-    if (page > 1 && galleryRef.current) {
-      const imageHeight = galleryRef.current.firstChild
-        ? galleryRef.current.firstChild.clientHeight
-        : 0;
+    if (page > 1) {
+      const imageHeight = 500;
       window.scrollBy({
-        top: imageHeight * 2,
+        top: imageHeight * 4,
         behavior: "smooth",
       });
     }
-  }, [photos]);
+  }, [photos, page]);
 
   const handleSearchSubmit = (value) => {
     setQuery(value);
