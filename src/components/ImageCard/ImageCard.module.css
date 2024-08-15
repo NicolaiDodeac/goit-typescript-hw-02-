@@ -4,3 +4,12 @@
   object-fit: cover;
   border-radius: 8px;
 }
+
+.like {
+  color: red;
+}
+
+/* .likes {
+  display: flex;
+  align-items: baseline;
+} */

@@ -81,8 +81,10 @@ const App = () => {
         isModalOpen={isModalOpen}
         handleCloseModal={handleCloseModal}
       />
-      {isLoading && <Loader />}
-      {showLoadMore && <button onClick={handleClick}>Load More</button>}
+      <div className={s.more}>
+        {isLoading && <Loader />}
+        {showLoadMore && <button onClick={handleClick}>Load More</button>}
+      </div>
     </div>
   );
 };
