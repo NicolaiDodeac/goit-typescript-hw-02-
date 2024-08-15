@@ -44,7 +44,7 @@ const App = () => {
 
   useEffect(() => {
     if (page > 1) {
-      const imageHeight = 500;
+      const imageHeight = 200;
       window.scrollBy({
         top: imageHeight * 2,
         behavior: "smooth",
