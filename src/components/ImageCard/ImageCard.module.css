@@ -1,6 +1,6 @@
 .img {
   width: 100%;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 10 / 5;
   object-fit: cover;
   border-radius: 8px;
 }
@@ -8,8 +8,3 @@
 .like {
   color: red;
 }
-
-/* .likes {
-  display: flex;
-  align-items: baseline;
-} */
