@@ -1,56 +1,90 @@
 import { useEffect, useState } from "react";
-import s from "./App.module.css";
-import ContactForm from "./components/ContactForm/ContactForm";
-import SearchBox from "./components/SearchBox/SearchBox";
-import ContactList from "./components/ContactList/ContactList";
-import { nanoid } from "nanoid";
+// import s from "./App.module.css";
+import SearchBar from "./components/SearchBar/SearchBar";
+import { fetchImages } from "../services/unsplashAPI";
+import ImageGallery from "./components/ImageGallery/ImageGallery";
+import ImageModal from "./components/ImageModal/ImageModal";
+import { ErrorMessage } from "formik";
+import Loader from "./components/Loader/Loader";
+import LoadMoreBtn from "./components/LoadMoreBtn/LoadMoreBtn";
 
-const initialValues = [
-  { id: "id-1", name: "Rosie Simpson", number: "459-12-56" },
-  { id: "id-2", name: "Hermione Kline", number: "443-89-12" },
-  { id: "id-3", name: "Eden Clements", number: "645-17-79" },
-  { id: "id-4", name: "Annie Copeland", number: "227-91-26" },
-];
-
-function App() {
-  const [contactList, setContactList] = useState(() => {
-    try {
-      const storedContacts = window.localStorage.getItem("contactList");
-      return storedContacts ? JSON.parse(storedContacts) : initialValues;
-    } catch (e) {
-      console.error("Error parsing localStorage data:", e);
-      return initialValues;
-    }
-  });
-
-  const [searchStr, setSearchStr] = useState("");
+const App = () => {
+  const [query, setQuery] = useState("");
+  const [page, setPage] = useState(1);
+  const [photos, setPhotos] = useState([]);
+  const [showLoadMore, setShowLoadMore] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [isEmpty, setIsEmpty] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalImage, setModalImage] = useState({});
 
   useEffect(() => {
-    window.localStorage.setItem("contactList", JSON.stringify(contactList));
-  }, [contactList]);
+    if (!query) return;
+    const fetchData = async () => {
+      try {
+        setIsLoading(true);
+        const res = await fetchImages(query, page);
+        if (!res.results.length) {
+          setIsEmpty(true);
+          return;
+        }
+        setPhotos((prev) => [...prev, ...res.results]);
+        setShowLoadMore(page < Math.ceil(res.total_results / res.per_page));
+      } catch {
+        setIsError(true);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-  const filteredData = contactList.filter((item) =>
-    item.name.toLowerCase().includes(searchStr.toLowerCase())
-  );
-  const handleAddContact = (contact) => {
-    setContactList((prev) => [...prev, { ...contact, id: nanoid() }]);
+    fetchData();
+  }, [query, page]);
+
+  const handleSearchSubmit = (value) => {
+    setQuery(value);
+    setPage(1);
+    setPhotos([]);
+    setShowLoadMore(false);
+    setIsError(false);
+    setIsEmpty(false);
   };
 
-  const handleDeleteContact = (id) => {
-    setContactList((prev) => prev.filter((contact) => contact.id !== id));
+  const handleClick = () => {
+    setPage((prev) => prev + 1);
+  };
+
+  const handleOpenModal = (modalImage) => {
+    setModalImage(modalImage);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalImage({});
+    setIsModalOpen(false);
   };
 
   return (
-    <div className={s.wrapper}>
-      <h1>Phonebook</h1>
-      <ContactForm handleAddContact={handleAddContact} />
-      <SearchBox searchStr={searchStr} setSearchStr={setSearchStr} />
-      <ContactList
-        contacts={filteredData}
-        handleDeleteContact={handleDeleteContact}
+    <div>
+      <SearchBar onSubmit={handleSearchSubmit} />
+      {isError && (
+        <ErrorMessage message="Something went wrong, please try again later." />
+      )}
+      {isEmpty && <div>No results found. Please try a different query.</div>}
+
+      {photos.length > 0 && (
+        <ImageGallery photos={photos} handleOpenModal={handleOpenModal} />
+      )}
+      {photos.length > 0 && !isLoading && <LoadMoreBtn onClick={handleClick} />}
+      <ImageModal
+        modalImage={modalImage}
+        isModalOpen={isModalOpen}
+        handleCloseModal={handleCloseModal}
       />
+      {isLoading && <Loader />}
+      {showLoadMore && <button onClick={handleClick}>Load More</button>}
     </div>
   );
-}
+};
 
 export default App;
