@@ -46,7 +46,7 @@ const App = () => {
     if (page > 1) {
       const imageHeight = 500;
       window.scrollBy({
-        top: imageHeight * 4,
+        top: imageHeight * 2,
         behavior: "smooth",
       });
     }
