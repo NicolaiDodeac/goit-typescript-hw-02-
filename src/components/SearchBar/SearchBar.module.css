@@ -1,27 +1,47 @@
-/* .findInputWrapper {
+/* SearchBar.module.css */
+
+.header {
+  background-color: #3f51b5; /* Синій фон, як на вашій картинці */
+  padding: 20px;
   display: flex;
-  flex-direction: column;
   justify-content: center;
-  gap: 5px;
-  text-align: center;
+  margin-bottom: 30px;
 }
-.findInputLabel {
-  color: rgb(66, 63, 63);
-  font-size: 20px;
+
+.findInputWrapper {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 25px;
+  overflow: hidden;
 }
 
 .findInput {
-  box-shadow: 0 0 6px 6px rgb(208, 210, 211);
-  max-width: 200px;
+  width: 400px;
+  padding: 10px 20px;
   border: none;
-  padding: 5px 5px;
-  &:focus {
-    box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 16px 0px,
-      rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;
+  outline: none;
+  font-size: 16px;
+  border-radius: 25px 0 0 25px; /* Закруглення країв зліва */
+}
 
-    outline: none;
-  }
-  &::placeholder {
-    color: rgb(197, 197, 199);
-  }
-} */
+.searchButton {
+  background-color: #007bff; /* Колір кнопки */
+  border: none;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 0 25px 25px 0; /* Закруглення країв справа */
+}
+
+.searchButton:hover {
+  background-color: #0056b3;
+}
+
+.searchIcon {
+  color: white; /* Колір іконки */
+  width: 20px;
+  height: 20px;
+}

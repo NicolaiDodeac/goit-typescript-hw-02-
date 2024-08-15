@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-// import s from "./App.module.css";
 import SearchBar from "./components/SearchBar/SearchBar";
 import { fetchImages } from "../services/unsplashAPI";
 import ImageGallery from "./components/ImageGallery/ImageGallery";
@@ -7,6 +6,7 @@ import ImageModal from "./components/ImageModal/ImageModal";
 import { ErrorMessage } from "formik";
 import Loader from "./components/Loader/Loader";
 import LoadMoreBtn from "./components/LoadMoreBtn/LoadMoreBtn";
+import s from "./App.module.css";
 
 const App = () => {
   const [query, setQuery] = useState("");
@@ -70,7 +70,7 @@ const App = () => {
       {isError && (
         <ErrorMessage message="Something went wrong, please try again later." />
       )}
-      {isEmpty && <div>No results found. Please try a different query.</div>}
+      {isEmpty && <h1>No results found. Please try a different query.</h1>}
 
       {photos.length > 0 && (
         <ImageGallery photos={photos} handleOpenModal={handleOpenModal} />

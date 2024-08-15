@@ -1,6 +1,7 @@
 import s from "./SearchBar.module.css";
 import toast, { Toaster } from "react-hot-toast";
 const notify = () => toast("No query was typed.");
+import { Search } from "lucide-react";
 
 const SearchBar = ({ onSubmit }) => {
   const handleFormSubmit = (e) => {
@@ -15,7 +16,7 @@ const SearchBar = ({ onSubmit }) => {
   };
 
   return (
-    <header>
+    <header className={s.header}>
       <form className={s.findInputWrapper} onSubmit={handleFormSubmit}>
         <input
           className={s.findInput}
@@ -25,7 +26,9 @@ const SearchBar = ({ onSubmit }) => {
           autoFocus
           placeholder="Search images and photos"
         />
-        <button type="submit">Search</button>
+        <button type="submit" className={s.searchButton}>
+          <Search className={s.searchIcon} />
+        </button>
         <Toaster />
       </form>
     </header>
