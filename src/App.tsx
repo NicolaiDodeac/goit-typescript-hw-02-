@@ -6,31 +6,37 @@ import ImageModal from "./components/ImageModal/ImageModal";
 import ErrorMessage from "./components/ErrorMessage/ErrorMessage";
 import Loader from "./components/Loader/Loader";
 import LoadMoreBtn from "./components/LoadMoreBtn/LoadMoreBtn";
+import { Photo } from "../services/unsplashAPI.types";
+
 import s from "./App.module.css";
 
-const App = () => {
-  const [query, setQuery] = useState("");
-  const [page, setPage] = useState(1);
-  const [photos, setPhotos] = useState([]);
-  const [showLoadMore, setShowLoadMore] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
-  const [isEmpty, setIsEmpty] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalImage, setModalImage] = useState({});
+const App: React.FC = () => {
+  const [query, setQuery] = useState<string>("");
+  const [page, setPage] = useState<number>(1);
+  const [photos, setPhotos] = useState<Photo[]>([]);
+  const [showLoadMore, setShowLoadMore] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isError, setIsError] = useState<boolean>(false);
+  const [isEmpty, setIsEmpty] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [modalImage, setModalImage] = useState<{
+    urls: { regular: string } | null;
+    alt_description: string;
+  } | null>(null);
 
   useEffect(() => {
     if (!query) return;
+
     const fetchData = async () => {
       try {
         setIsLoading(true);
         const res = await fetchImages(query, page);
-        if (!res.results.length) {
+        if (!res || !res.results.length) {
           setIsEmpty(true);
           return;
         }
         setPhotos((prev) => [...prev, ...res.results]);
-        setShowLoadMore(page < Math.ceil(res.total_results / res.per_page));
+        setShowLoadMore(page < Math.ceil(res.total / 20));
       } catch {
         setIsError(true);
       } finally {
@@ -51,7 +57,7 @@ const App = () => {
     }
   }, [photos, page]);
 
-  const handleSearchSubmit = (value) => {
+  const handleSearchSubmit = (value: string): void => {
     setQuery(value);
     setPage(1);
     setPhotos([]);
@@ -60,17 +66,21 @@ const App = () => {
     setIsEmpty(false);
   };
 
-  const handleClick = () => {
+  const handleClick = (): void => {
     setPage((prev) => prev + 1);
   };
 
-  const handleOpenModal = (modalImage) => {
-    setModalImage(modalImage);
+  const handleOpenModal = (photo: Photo): void => {
+    const modalContent = {
+      urls: { regular: photo.urls.regular },
+      alt_description: photo.alt_description || "",
+    };
+    setModalImage(modalContent);
     setIsModalOpen(true);
   };
 
-  const handleCloseModal = () => {
-    setModalImage({});
+  const handleCloseModal = (): void => {
+    setModalImage(null);
     setIsModalOpen(false);
   };
 
@@ -78,10 +88,9 @@ const App = () => {
     <div>
       <SearchBar onSubmit={handleSearchSubmit} />
       {isError && (
-        <ErrorMessage message="Something went wrong, please try again later." />
+        <ErrorMessage text="Something went wrong, please try again later." />
       )}
       {isEmpty && <h1>No more results found. Please try a different query.</h1>}
-
       {photos.length > 0 && (
         <ImageGallery photos={photos} handleOpenModal={handleOpenModal} />
       )}

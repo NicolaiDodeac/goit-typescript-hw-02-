@@ -2,14 +2,21 @@ import s from "./SearchBar.module.css";
 import toast, { Toaster } from "react-hot-toast";
 const notify = () => toast("No query was typed.");
 import { Search } from "lucide-react";
+import { ChangeEvent } from "react";
 
-const SearchBar = ({ onSubmit }) => {
-  const handleFormSubmit = (e) => {
+interface SearchBarProps {
+  onSubmit: (query: string) => void;
+}
+
+const SearchBar: React.FC<SearchBarProps> = ({ onSubmit }) => {
+  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const query = e.target.elements.query.value.trim();
+    const query = (
+      e.currentTarget.elements.namedItem("query") as HTMLInputElement
+    ).value.trim();
     if (query) {
       onSubmit(query);
-      e.target.reset();
+      e.currentTarget.reset();
     } else {
       notify();
     }
